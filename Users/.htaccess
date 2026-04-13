@@ -1,0 +1,33 @@
+﻿RewriteEngine On
+RewriteBase /
+# Chuyển đổi các yêu cầu không phải là tệp hoặc thư mục thành .php theo đường dẫn gốc
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+# Chuyển hướng trang Home đến file Index.php
+RewriteRule ^Home$ /Index.php [L]
+
+
+# Chuyển hướng đến trang Index.php khi file không tồn tại
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /Index.php [L]
+
+# Chuyển hướng đến trang error.php khi file không tồn tại
+ErrorDocument 404 /Home
+
+# Tắt truy cập vào thư mục
+Options -Indexes
+
+# Thêm loại tệp .IPA
+AddType application/octet-stream .ipa
+
+# Bảo vệ tệp .htaccess
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
+
+<FilesMatch "\.(jpg|jpeg|png|gif|svg|css|js)$">
+    Header set Cache-Control "max-age=31536000"
+</FilesMatch>
